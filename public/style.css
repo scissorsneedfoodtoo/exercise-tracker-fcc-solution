@@ -19,6 +19,10 @@ h1 {
   font-weight: bold;
 }
 
+li {
+  margin-top: 10px;
+}
+
 p {
   max-width: 900px;
 }

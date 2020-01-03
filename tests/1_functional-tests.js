@@ -1,10 +1,7 @@
 /*
-*
-*       Note: This test suite assumes that you've used
-*       Mongoose to created a Users schema at `../models/users.js` and
-*       an Exercises schema at `../models/exercises.js`. If that's
-*       not the case, feel free to modify these tests to suit
-*       your code.
+*       
+*       To run the tests, open the terminal with [Ctrl + `] (backtick)
+*       and run the command `npm run test`
 *
 */
 
@@ -13,9 +10,6 @@ const chai = require('chai');
 const assert = chai.assert;
 const server = require('../server');
 const shortId = require('shortid');
-
-const Users = require('../models/users');
-const Exercises = require('../models/exercises');
 
 let testUser = {
   username: shortId.generate() // Random username unlikely to be taken by an actual user
@@ -28,9 +22,9 @@ suite('Functional Tests', function() {
 
   suite('Routing Tests', function() {
     
-    suite('POST /api/exercise/new-user -> new user JSON object', function() {
+    suite('POST /api/exercise/new-user => New user object', function() {
       
-      test('Returns a new user JSON object', function(done) {
+      test('Returns a new user object', function(done) {
         chai.request(server)
           .post('/api/exercise/new-user')
           .send({ username: testUser.username })
@@ -56,7 +50,7 @@ suite('Functional Tests', function() {
       
     });
 
-    suite('POST /api/exercise/add -> tracked exercise JSON object', () => {
+    suite('POST /api/exercise/add => Tracked exercise object', () => {
 
       test(`Returns a new exercise JSON object with today's date`, done => {
         const exerciseInfo = {
@@ -106,7 +100,7 @@ suite('Functional Tests', function() {
 
     });
 
-    suite('GET /api/exercise/users -> array of all user objects JSON', () => {
+    suite('GET /api/exercise/users => Array of all user objects', () => {
       
       test('Returns an array of all users', done => {
         chai.request(server)
@@ -123,7 +117,7 @@ suite('Functional Tests', function() {
       
     });
 
-    suite('GET /api/exercise/log/[userId] -> exercise log JSON', () => {
+    suite('GET /api/exercise/log/[userId] => User\'s exercise log', () => {
       
       test(`Returns a user's full exercise log and a total count of exercises`, done => {
         chai.request(server)
@@ -212,20 +206,6 @@ suite('Functional Tests', function() {
       
     });
 
-  });
-
-  suiteTeardown(async () => {
-    await Users.deleteOne({ userId: testUser.userId }, (err, user) => {
-      if(err) console.log(err);
-    
-      console.log(`Test user ${testUser.username} removed from users collection`);
-    });
-
-    await Exercises.deleteMany({ userId: testUser.userId }, (err, exercises) => {
-      if (err) console.log(err);
-    
-      console.log(`All exercises for test user ${testUser.username} removed from exercise collection`);
-    });
   });
 
 });
