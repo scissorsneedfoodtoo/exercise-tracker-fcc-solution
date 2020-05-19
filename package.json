@@ -5,7 +5,7 @@
  "main": "server.js",
  "scripts": {
   "start": "nodemon server.js",
-  "test": "mocha --exit --ui tdd tests/"
+  "test": "PORT=8000 mocha --exit --ui tdd tests/"
  },
  "dependencies": {
   "body-parser": "^1.19.0",
@@ -13,10 +13,10 @@
   "chai-http": "^4.3.0",
   "dotenv": "^8.2.0",
   "express": "^4.17.1",
-  "mocha": "^6.2.2",
-  "mongodb": "^3.4.1",
-  "mongoose": "^5.8.2",
-  "nodemon": "^2.0.2",
+  "mocha": "^6.2.3",
+  "mongodb": "^3.5.7",
+  "mongoose": "^5.9.15",
+  "nodemon": "^2.0.4",
   "shortid": "^2.2.15"
  },
  "license": "MIT"
