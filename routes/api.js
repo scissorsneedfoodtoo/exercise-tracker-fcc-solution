@@ -4,7 +4,7 @@ const Exercises = require('../models/exercises');
 const router = require('express').Router();
 
 router.post('/new-user', (req, res, next) => {
-  const user = new Users(req.body)
+  const user = new Users(req.body);
   user.save((err, savedUser) => {
     if(err) {
       if(err.code == 11000) {
@@ -20,8 +20,7 @@ router.post('/new-user', (req, res, next) => {
 
     res.json({
       username: savedUser.username,
-      userId: savedUser._id
-      // userId: savedUser.userId
+      _id: savedUser._id
     })
   })
 })
@@ -56,14 +55,13 @@ router.get('/users', (req, res, next) => {
 router.get('/log', (req, res, next) => {
   const from = new Date(req.query.from)
   const to = new Date(req.query.to)
-  // console.log(req.query.userId)
-  // console.log(from.toISOString(), to.toISOString())
+
   Users.findById(req.query.userId, (err, user) => {
     if(err) return next(err);
     if(!user) {
-      return next({status:400, message: 'Unknown userId'})
+      return next({ status:400, message: 'Unknown userId' });
     }
-    // console.log(user)
+
     Exercises.find({
       userId: req.query.userId,
         date: {

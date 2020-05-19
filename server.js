@@ -2,6 +2,7 @@ require('dotenv').config();
 const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
+const cors = require('cors');
 
 const mongoose = require('mongoose');
 
@@ -9,13 +10,14 @@ mongoose.set('useUnifiedTopology', true);
 mongoose.set('useCreateIndex', true);
 mongoose.connect(process.env.DB_URI || 'mongodb://localhost/exercise-track', { useNewUrlParser: true });
 
+app.use(cors());
+
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 
-
-app.use('/public', express.static(process.cwd() + '/public'));
+app.use(express.static('public'))
 app.get('/', (req, res) => {
-  res.sendFile(__dirname + '/views/index.html');
+  res.sendFile(__dirname + '/views/index.html')
 });
 
 const apiRouter = require('./routes/api');

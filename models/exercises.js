@@ -1,5 +1,3 @@
-'use strict'
-
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
@@ -24,7 +22,7 @@ const Exercises = new Schema({
     ref: 'Users',
     index: true
   }
-})
+});
 
 // validate userId, and add "username" to the exercise instance
 Exercises.pre('save', function(next) {
@@ -33,15 +31,14 @@ Exercises.pre('save', function(next) {
     if(!user) {
       const err = new Error('unknown userId')
       err.status = 400
-      return next(err)
+      return next(err);
     }
     this.username = user.username
     if(!this.date) {
-      this.date = Date.now()
+      this.date = Date.now();
     }
     next();
-  })
-})
+  });
+});
 
-
-module.exports = mongoose.model('Exercises', Exercises)
+module.exports = mongoose.model('Exercises', Exercises);

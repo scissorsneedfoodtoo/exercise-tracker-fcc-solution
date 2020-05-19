@@ -30,7 +30,7 @@ suite('Functional Tests', function() {
           .send({ username: testUser.username })
           .end((err, res) => {
             assert.strictEqual(res.body.username, testUser.username);
-            assert(res.body.userId); // check only for existence of userId -- we don't specify what form it should be in
+            assert(res.body._id); // check only for existence of _id -- we don't specify what form it should be in
 
             testUser = res.body; // store JSON response for later tests
             done();
@@ -54,7 +54,7 @@ suite('Functional Tests', function() {
 
       test(`Returns a new exercise JSON object with today's date`, done => {
         const exerciseInfo = {
-          userId: testUser.userId,
+          userId: testUser._id,
           description: 'Walk',
           duration: 40,
           date: '' // Don't supply a date
@@ -77,7 +77,7 @@ suite('Functional Tests', function() {
 
       test(`Returns a new exercise JSON object with a specific date`, done => {
         const exerciseInfo = {
-          userId: testUser.userId,
+          userId: testUser._id,
           description: 'Run',
           duration: 30,
           date: '2018/6/13'
@@ -117,15 +117,15 @@ suite('Functional Tests', function() {
       
     });
 
-    suite('GET /api/exercise/log/[userId] => User\'s exercise log', () => {
+    suite('GET /api/exercise/log/[userId(_id)] => User\'s exercise log', () => {
       
       test(`Returns a user's full exercise log and a total count of exercises`, done => {
         chai.request(server)
           .get('/api/exercise/log')
-          .query({ userId: testUser.userId })
+          .query({ userId: testUser._id })
           .end((err, res) => {
             const expected = { 
-              userId: testUser.userId,
+              userId: testUser._id,
               username: testUser.username,
               count: 2,
               log: [ 
@@ -142,7 +142,7 @@ suite('Functional Tests', function() {
       test(`Return part of a user's exercise log by passing from and to dates`, done => {
         // Store another exercise with a specific date
         const exerciseInfo = {
-          userId: testUser.userId,
+          userId: testUser._id,
           description: 'Pull ups',
           duration: 10,
           date: '2018/6/14'
@@ -163,14 +163,14 @@ suite('Functional Tests', function() {
             .get('/api/exercise/log')
             .query(
               { 
-                userId: testUser.userId,
+                userId: testUser._id,
                 from: '2018/6/13',
                 to: '2018/6/14'
               }
             )
             .end((err, res) => {
               const expected = { 
-                userId: testUser.userId,
+                userId: testUser._id,
                 username: testUser.username,
                 from: 'Wed Jun 13 2018',
                 to: 'Thu Jun 14 2018',
@@ -192,7 +192,7 @@ suite('Functional Tests', function() {
           .get('/api/exercise/log')
           .query(
             { 
-              userId: testUser.userId,
+              userId: testUser._id,
               limit: 2
             }
           )
