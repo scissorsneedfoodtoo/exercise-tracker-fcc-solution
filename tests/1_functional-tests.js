@@ -65,7 +65,9 @@ suite('Functional Tests', function() {
           .send(exerciseInfo)
           .end((err, res) => {
             const expected = { 
-              ...exerciseInfo,
+              _id: testUser._id,
+              description: exerciseInfo.description,
+              duration: exerciseInfo.duration,
               date: new Date().toDateString(),
               username: testUser.username,
             }
@@ -88,7 +90,9 @@ suite('Functional Tests', function() {
           .send( exerciseInfo )
           .end((err, res) => {
             const expected = { 
-              ...exerciseInfo,
+              _id: testUser._id,
+              description: exerciseInfo.description,
+              duration: exerciseInfo.duration,
               date: 'Wed Jun 13 2018',
               username: testUser.username,
             }

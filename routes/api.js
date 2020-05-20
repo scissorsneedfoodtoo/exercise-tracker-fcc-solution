@@ -38,12 +38,21 @@ router.post('/add', (req, res, next) => {
     exercise.username = user.username
     exercise.save((err, savedExercise) => {
       if(err) return next(err)
-      savedExercise = savedExercise.toObject()
-      delete savedExercise.__v
-      delete savedExercise._id
-      savedExercise.date = (new Date(savedExercise.date)).toDateString()
-      res.json(savedExercise)
-    })
+      savedExercise = savedExercise.toObject();
+
+      // append exercise values to 
+      // cloned user object and return
+      const userObjWithExercises = { 
+        ...user.toObject(), 
+        date: (new Date(savedExercise.date)).toDateString(),
+        duration: savedExercise.duration,
+        description: savedExercise.description
+      };
+
+      delete userObjWithExercises.__v;
+
+      res.json(userObjWithExercises)
+    });
   })
 })
 
